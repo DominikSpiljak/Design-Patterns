@@ -1,0 +1,16 @@
+Kod stvaranja Derived instance, prvo se stvara Base instanca.
+
+Pri stvaranju Base instanca poziva funkciju metoda(), metoda() gleda
+u virtualnu tablicu pozivatelja, a to je Base instanca te poziva 
+funkciju virtualnaMetoda() koja ispisuje Metoda kaze: ja sam bazna implementacija!
+
+Nakon toga se stvara Derived instanca.
+
+Pri stvaranju Derived instanca poziva funkciju metoda(), metoda() gleda
+u virtualnu tablicu pozivatelja, a to je Derived instanca te poziva 
+funkciju virtualnaMetoda() koja ispisuje Metoda kaze: ja sam izvedena implementacija!
+
+Nakon toga se poziva funkcija metoda() nad objektom instance klase Derived.
+
+metoda() gleda u virtualnu tablicu pozivatelja, a to je Derived instanca te poziva 
+funkciju virtualnaMetoda() koja ispisuje Metoda kaze: ja sam izvedena implementacija!

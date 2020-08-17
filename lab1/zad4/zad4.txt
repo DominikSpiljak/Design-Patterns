@@ -1,0 +1,73 @@
+1) 
+    Inicijalizacija poc:
+        push	rbx
+        sub	rsp, 24
+    Inicijalizacija pb:
+        call	operator new(unsigned long)
+
+2)
+    poc se stavlja na stog, a pb se inicijalizira u heapu
+
+3)
+    Inicijalizacija poc:
+        push	rbx
+        sub	rsp, 24
+
+4)
+    Inicijalizacija pb konstruktora:
+        call	CoolClass::CoolClass()
+        mov	QWORD PTR [rbp-24], rbx
+
+        CoolClass::CoolClass()
+            sub	rsp, 16
+            mov	QWORD PTR [rbp-8], rdi
+            mov	rax, QWORD PTR [rbp-8]
+            mov	rdi, rax
+            call	Base::Base()
+            mov	edx, OFFSET FLAT:vtable for CoolClass 16
+            mov	rax, QWORD PTR [rbp-8]
+            mov	QWORD PTR [rax], rdx
+
+        Base::Base()
+            mov	QWORD PTR [rbp-8], rdi
+            mov	edx, OFFSET FLAT:vtable for Base 16
+            mov	rax, QWORD PTR [rbp-8]
+            mov	QWORD PTR [rax], rdx
+
+    Stvara se instanca CoolClass klase koja poziva stvaranje instance Base klase.
+
+5) 
+    Poziv za PlainOldClass:
+    	mov	QWORD PTR [rbp-24], rbx
+        lea	rax, [rbp-28]
+        mov	esi, 42
+        mov	rdi, rax
+        call	PlainOldClass::set(int)
+    Poziv za CoolClass:
+        mov	rax, QWORD PTR [rbp-24]
+        mov	rax, QWORD PTR [rax]
+        mov	rdx, QWORD PTR [rax]
+        mov	rax, QWORD PTR [rbp-24]
+        mov	esi, 42
+        mov	rdi, rax
+        call	rdx
+
+    Instanca PlainOldClassa se uzima sa stoga te se poziva funkcija definirana kao PlainOldClass::set(int)
+    dok se instanca CoolClassa uzima iz memorije i poziva se funkcija koja je spremljena u opisniku te instance.
+
+    Moguće je obaviti poziv za CoolClass s manje instrukcija, tj s call funkcijom
+
+    Moguće je proširiti poziv za PlainOldClass umetanjem naredbi iz PlainOldClass::set(int) u kod.
+
+6)
+    vtable for CoolClass:
+	.quad	0
+	.quad	typeinfo for CoolClass
+	.quad	CoolClass::set(int)
+	.quad	CoolClass::get()
+	.weak	vtable for Base
+	.section	.rodata.vtable for Base,"aG",@progbits,vtable for Base,comdat
+	.align 8
+	.type	vtable for Base, @object
+	.size	vtable for Base, 32
+    

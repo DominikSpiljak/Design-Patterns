@@ -1,0 +1,16 @@
+Objekti:
+    struct Animal* p1=createDog("Hamlet");, struct Animal* p2=createCat("Ofelija");, struct Animal* p3=createDog("Polonije");
+Metode:
+    Dog::animalPrintGreeting
+    Dog::animalPrintMenu
+    Cat::animalPrintGreeting
+    Cat::animalPrintMenu
+Virtualne metode:
+    Animal::animalPrintGreeting
+    Animal::animalPrintMenu
+Konstruktori:
+    Dog::createDog
+    Cat::createCat
+Virtualne tablice:
+    struct greet_v_table greet_table;
+    struct menu_v_table menu_table;

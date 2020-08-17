@@ -1,0 +1,4 @@
+Size of CoolClass: 16
+Size of PlainOldClass: 4
+
+Virtualne funkcije uz specifikaciju funkcije također moraju spremati virtualne tablice koje zauzimaju memoriju pa je sizeof(CoolClass) > sizeof(PlainOldClass)
